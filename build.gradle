@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.5-SNAPSHOT'
+	id 'fabric-loom' version '1.2-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -16,19 +16,39 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+
 }
 
 loom {
     splitEnvironmentSourceSets()
 
-	mods {
-		"modid" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
+    mods {
+        "modid" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
 
 }
+
+task dumpClasses {
+    inputs.files configurations.runtimeClasspath
+    outputs.file "$buildDir/dumpClasses.txt"
+    doLast {
+        file("$buildDir/dumpClasses.txt").withWriter { writer ->
+            configurations.runtimeClasspath.each { file ->
+                FileTree tree = file.name.endsWith('.jar')
+                   ? zipTree(file)
+                   : (file.directory ? fileTree(file) : null)
+                if (tree) {
+                    tree.matching { include '**/*.class' }.each {
+                        writer.println(it.path)
+                    }
+                } 
+            }
+        } 
+    } 
+} 
 
 dependencies {
 	// To change the versions see the gradle.properties file
@@ -38,7 +58,9 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+	implementation (files("libs/libpd.jar"))
+
+	//modImplementation name: "libpd-@net.fabricmc.yarn"
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
@@ -69,7 +91,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+		rename { "${it}_${project.archivesBaseName}"}
 	}
 }
 

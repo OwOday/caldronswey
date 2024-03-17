@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "modid",
+	"id": "caldronswey",
 	"version": "${version}",
-	"name": "Example mod",
+	"name": "caldronswey",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
 		"Me!"
@@ -11,27 +11,27 @@
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/modid/icon.png",
+	"license": "BSD-2-Clause",
+	"icon": "assets/caldronswey/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.example.ExampleMod"
+			"com.caldronswey.Caldronswey"
 		],
 		"client": [
-			"com.example.ExampleModClient"
+			"com.caldronswey.CaldronsweyClient"
 		]
 	},
 	"mixins": [
-		"modid.mixins.json",
+		"caldronswey.mixins.json",
 		{
-			"config": "modid.client.mixins.json",
+			"config": "caldronswey.client.mixins.json",
 			"environment": "client"
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.15.0",
-		"minecraft": "~1.20.4",
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*"
 	},

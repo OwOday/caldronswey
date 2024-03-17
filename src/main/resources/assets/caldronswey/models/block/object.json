@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+      "down": "block/synthsouth",
+      "up": "block/synthnorth",
+      "north": "block/synthblock",
+      "south": "block/synthback",
+      "west": "block/synthleft",
+      "east": "block/synthright"
+    }
+  }
+
